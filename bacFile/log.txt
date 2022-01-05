@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users\bsdadmin\PycharmProjects\Translate\TranslateLogic.py", line 201, in kanjiToHirakana
+    results = kks.convert(text.replace("\n", ""))
+AttributeError: 'NoneType' object has no attribute 'replace'
+Traceback (most recent call last):
+  File "C:\Users\bsdadmin\PycharmProjects\Translate\TranslateLogic.py", line 205, in kanjiToHirakana
+    results = kks.convert(text.replace("\n", ""))
+AttributeError: 'NoneType' object has no attribute 'replace'
+Traceback (most recent call last):
+  File "C:\Users\bsdadmin\PycharmProjects\Translate\TranslateLogic.py", line 205, in kanjiToHirakana
+    results = kks.convert(text.replace("\n", ""))
+AttributeError: 'NoneType' object has no attribute 'replace'

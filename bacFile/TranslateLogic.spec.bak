@@ -1,0 +1,50 @@
+# -*- mode: python ; coding: utf-8 -*-
+
+
+block_cipher = None
+
+
+a = Analysis(['TranslateLogic.py'],
+             pathex=['C:\\Users\\bsdadmin\\PycharmProjects\\Trans'],
+             binaries=[],
+             datas=[],
+             hiddenimports=['pykakasi'],
+             hookspath=[],
+             hooksconfig={},
+             runtime_hooks=[],
+             excludes=[],
+             win_no_prefer_redirects=False,
+             win_private_assemblies=False,
+             cipher=block_cipher,
+             noarchive=False)
+a.datas += [('pykakasi\\data\\halfkana3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\halfkana3.db', 'DATA')
+,('pykakasi\\data\\hepburndict3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\hepburndict3.db', 'DATA')
+,('pykakasi\\data\\hepburnhira3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\hepburnhira3.db', 'DATA')
+,('pykakasi\\data\\itaijidict4.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\itaijidict4.db', 'DATA')
+,('pykakasi\\data\\kanwadict4.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\kanwadict4.db', 'DATA')
+,('pykakasi\\data\\kunreidict3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\kunreidict3.db', 'DATA')
+,('pykakasi\\data\\kunreihira3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\kunreihira3.db', 'DATA')
+,('pykakasi\\data\\passportdict3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\passportdict3.db', 'DATA')
+,('pykakasi\\data\\passporthira3.db', 'C:\\Users\\bsdadmin\\AppData\Local\\Programs\\Python\\Python39\\Lib\\site-packages\\pykakasi\\data\\passporthira3.db', 'DATA')
+]
+pyz = PYZ(a.pure, a.zipped_data,
+             cipher=block_cipher)
+
+exe = EXE(pyz,
+          a.scripts,
+          a.binaries,
+          a.zipfiles,
+          a.datas,  
+          [],
+          name='TranslateLogic',
+          debug=False,
+          bootloader_ignore_signals=False,
+          strip=False,
+          upx=True,
+          upx_exclude=[],
+          runtime_tmpdir=None,
+          console=True,
+          disable_windowed_traceback=False,
+          target_arch=None,
+          codesign_identity=None,
+          entitlements_file=None )

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "TranslateLogic.py", line 156, in setBaidu
+  File "BaiDuTrans.py", line 15, in getText
+  File "configparser.py", line 963, in __getitem__
+KeyError: 'BaiduSettings'
