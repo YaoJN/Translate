@@ -1,5 +1,4 @@
 # coding:utf-8
-import os
 import sys
 from threading import Thread
 import traceback
@@ -12,7 +11,9 @@ import Googletrans
 import json
 import time
 import pykakasi
+from janome.tokenizer import Tokenizer
 from PyQt5.QtWidgets import QApplication, QDialog
+
 
 class MyThread(Thread):
     def __init__(self, func, args):
@@ -51,7 +52,7 @@ class MainDialog(QDialog):
         baiduTranslationCheck = self.ui.baiduTranslationCheck.isChecked()
         baiduTranslationReCheck = self.ui.baiduTranslationReCheck.isChecked()
         googleTranslationCheck = self.ui.googleTranslationCheck.isChecked()
-        googleTranslationCheck_2 = self.ui.googleTranslationCheck_2.isChecked()
+        googleTranslationReCheck = self.ui.googleTranslationReCheck.isChecked()
         # 履历区域各checkbox选择
         resumeBaidu = self.ui.resumeBaidu.isChecked()
         resumeGoogle = self.ui.resumeGoogle.isChecked()
@@ -70,7 +71,7 @@ class MainDialog(QDialog):
         t1 = MyThread(MainDialog.setBaiduText, args=(self, fromLang, toLangBaidu, originalText,
                                                      baiduTranslationReCheck))
         t2 = MyThread(MainDialog.setGoogleText, args=(self, fromLang, toLangGoogle, originalText,
-                                                      googleTranslationCheck_2))
+                                                      googleTranslationReCheck))
         # 百度翻译check被选中,执行百度翻译操作
         if baiduTranslationCheck:
             t1.start()
@@ -99,8 +100,19 @@ class MainDialog(QDialog):
             hirakana = MainDialog.kanjiToHirakana(self, toLangGoogle, translationTextGoogle)
             self.ui.translationText_2.setText(hirakana + translationTextGoogle)
             # Google反向翻译check被选中,执行Google反向翻译操作
-            if googleTranslationCheck_2:
+            if googleTranslationReCheck:
                 self.ui.transToOriginalText_2.setText(translationTextGoogleRev)
+        # 原文是日文时进行分词并保存到分词区域
+        if fromLang == '日本語':
+            t = Tokenizer()
+            tanGoWake = ''
+            for token in t.tokenize(originalText):
+                textSurface = token.surface
+                tanGoWake += textSurface + "　"
+            self.ui.tanGoWaKe.setText(tanGoWake)
+            self.ui.tanGoWaKe.setOpenExternalLinks(True)
+        #TODO(双击分词后，从网络爬取翻译放置到文本框)
+
         # 翻译内容保存到右侧区域或者文本
         # 设置区域内容
         if resumeBaidu or resumeGoogle:
@@ -136,13 +148,13 @@ class MainDialog(QDialog):
         return listBaiduText
 
     # 取得并设置谷歌翻译结果
-    def setGoogleText(self, fromLang, toLangGoogle, originalText, googleTranslationCheck_2):
+    def setGoogleText(self, fromLang, toLangGoogle, originalText, googleTranslationReCheck):
         listGoogleText = []
         translationTextGoogleRev = ''
         # 翻译内容取得
         translationTextGoogle = MainDialog.setGoogle(self, fromLang, toLangGoogle, originalText)
         # Google反向翻译check被选中,执行Google反向翻译操作
-        if googleTranslationCheck_2:
+        if googleTranslationReCheck:
             translationTextGoogleRev = MainDialog.setGoogle(self, toLangGoogle, fromLang, translationTextGoogle)
         listGoogleText.append(translationTextGoogle)
         listGoogleText.append(translationTextGoogleRev)
@@ -166,7 +178,7 @@ class MainDialog(QDialog):
                     translationText += json.loads(s3) + "\n"
         except:
             translationText = "異常発生、ログ内容を確認ください\n";
-            with open('../log', "a") as f:
+            with open('./log.txt', "a") as f:
                 traceback.print_exc(file=f)
         return translationText
 
@@ -204,7 +216,7 @@ class MainDialog(QDialog):
             with open('log.txt', "a") as f:
                 traceback.print_exc(file=f)
 
-    def getErrorMsg(self,errorCode):
+    def getErrorMsg(self, errorCode):
         translationText = ''
         if errorCode == '52001':
             translationText = '请求超时(请重试)'
